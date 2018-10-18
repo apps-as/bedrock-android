@@ -1,0 +1,47 @@
+buildscript {
+    ext {
+        kotlinVersion = "1.2.71"
+        kotlinCoroutinesVersion = "0.30.2"
+        conductorVersion = "2.1.5"
+        lifecycleVersion = "2.0.0"
+        jetpackVersion = "1.0.0"
+        dagger2Version = "2.16" // TODO update after Jetifier bug is fixed
+
+        dependenciesVersion = "0.20.0"
+        buildToolsVersion = "3.2.0"
+        androidMavenPublishVersion = "3.6.2"
+    }
+
+    repositories {
+        google()
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        // Android
+        classpath "com.android.tools.build:gradle:$buildToolsVersion"
+
+        // Kotlin
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+
+        // Dependency update
+        classpath "com.github.ben-manes:gradle-versions-plugin:$dependenciesVersion"
+
+        // Android Maven Publish
+        classpath "digital.wup:android-maven-publish:$androidMavenPublishVersion"
+    }
+}
+
+apply plugin: "com.github.ben-manes.versions"
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        mavenCentral()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
