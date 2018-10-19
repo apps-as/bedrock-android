@@ -88,6 +88,10 @@ abstract class AppsController<A : PageArgs, VMA, VM : AppsViewModel<VMA>> @JvmOv
         navigator.navigate(pageArgs, args)
     }
 
+    protected fun goBack() {
+        activity?.onBackPressed()
+    }
+
     protected open fun initView(context: Context) {}
 
     private fun buildViewModel(factory: ViewModelProvider.Factory, clazz: Class<VM>): VM {
