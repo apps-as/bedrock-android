@@ -2,17 +2,15 @@ package no.apps.bedrock.utils
 
 import androidx.lifecycle.Observer
 
-class Event<out T : Any>(private val content: T) {
-
-    private var hasBeenHandled = false
+class Event<out T : Any>(content: T) {
+    private var nullableContent: T? = content
 
     private fun getContentIfNotHandled(): T? {
-        return if (hasBeenHandled) {
-            null
-        } else {
-            hasBeenHandled = true
-            content
+        val currentContent = nullableContent
+        if (currentContent != null) {
+            nullableContent = null
         }
+        return currentContent
     }
 
     class EventObserver<T : Any>(private val onEventUnhandledContent: (T) -> Unit) :

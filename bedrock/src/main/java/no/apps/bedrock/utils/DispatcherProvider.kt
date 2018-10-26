@@ -1,6 +1,6 @@
 package no.apps.bedrock.utils
 
-import kotlinx.coroutines.experimental.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineDispatcher
 
 interface DispatcherProvider {
     val main: CoroutineDispatcher

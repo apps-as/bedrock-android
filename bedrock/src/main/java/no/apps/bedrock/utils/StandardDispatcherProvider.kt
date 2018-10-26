@@ -1,8 +1,10 @@
 package no.apps.bedrock.utils
 
-import kotlinx.coroutines.experimental.CoroutineDispatcher
-import kotlinx.coroutines.experimental.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 object StandardDispatcherProvider : DispatcherProvider {
     override val mainImmediate: CoroutineDispatcher
         get() = Dispatchers.Main.immediate

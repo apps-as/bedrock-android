@@ -1,12 +1,11 @@
 package no.apps.bedrock.domain.viewmodel
 
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.experimental.CoroutineScope
-import kotlinx.coroutines.experimental.Dispatchers
-import kotlinx.coroutines.experimental.Job
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 import no.apps.bedrock.utils.DispatcherProvider
 import no.apps.bedrock.utils.StandardDispatcherProvider
-import kotlin.coroutines.experimental.CoroutineContext
+import kotlin.coroutines.CoroutineContext
 
 abstract class AppsViewModel<A>(
     private val dispatcherProvider: DispatcherProvider = StandardDispatcherProvider
@@ -38,7 +37,7 @@ abstract class AppsViewModel<A>(
     open fun onAttach() {
     }
 
-    fun onDetach() {
+    open fun onDetach() {
     }
 
     override fun onCleared() {

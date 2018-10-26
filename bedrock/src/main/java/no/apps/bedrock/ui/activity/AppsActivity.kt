@@ -1,12 +1,12 @@
 package no.apps.bedrock.ui.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import com.bluelinelabs.conductor.Conductor
 import com.bluelinelabs.conductor.Controller
 import com.bluelinelabs.conductor.Router
-import com.bluelinelabs.conductor.RouterTransaction
 import dagger.android.AndroidInjection
 import dagger.android.DispatchingAndroidInjector
 import no.apps.bedrock.di.conductor.HasControllerInjector
@@ -42,5 +42,10 @@ abstract class AppsActivity : AppCompatActivity(), HasControllerInjector, Router
         if (!router.handleBack()) {
             super.onBackPressed()
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        router.onActivityResult(requestCode, resultCode, data)
     }
 }

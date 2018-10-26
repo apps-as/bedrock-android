@@ -1,7 +1,7 @@
 package no.apps.bedrock.domain.usecase
 
-import kotlinx.coroutines.experimental.Dispatchers
-import kotlinx.coroutines.experimental.withContext
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 interface AsyncUseCase0<out T> {
     suspend fun execute(): T
