@@ -5,11 +5,14 @@ import androidx.appcompat.app.AppCompatActivity
 import dagger.android.AndroidInjection
 
 abstract class AppsDaggerActivity : AppCompatActivity() {
-    abstract val layoutId: Int
+    abstract val layoutId: Int?
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
-        setContentView(layoutId)
+        val id = layoutId
+        if (id != null) {
+            setContentView(id)
+        }
     }
 }
