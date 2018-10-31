@@ -5,6 +5,7 @@ import dagger.Module
 import dagger.android.AndroidInjector
 import dagger.multibindings.Multibinds
 
+@Suppress("unused")
 @Module
 abstract class ConductorInjectionModule private constructor() {
     @Multibinds

@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelStore
 import com.bluelinelabs.conductor.archlifecycle.LifecycleController
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import no.apps.bedrock.di.conductor.ConductorInjection
 import no.apps.bedrock.domain.viewmodel.AppsViewModel
 import no.apps.bedrock.ui.navigation.Navigator
@@ -20,6 +21,8 @@ import no.apps.bedrock.ui.navigation.toArgs
 import no.apps.bedrock.utils.Event
 import javax.inject.Inject
 
+@ExperimentalCoroutinesApi
+@Suppress("unused", "MemberVisibilityCanBePrivate")
 abstract class AppsController<A : PageArgs, VMA, VM : AppsViewModel<VMA>> @JvmOverloads constructor(
     bundle: Bundle? = null
 ) : LifecycleController(bundle), LayoutContainer {

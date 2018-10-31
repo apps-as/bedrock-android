@@ -1,4 +1,4 @@
-package no.apps.bedrock.ui.activity
+package no.apps.bedrock.ui.navigation
 
 import com.bluelinelabs.conductor.Router
 

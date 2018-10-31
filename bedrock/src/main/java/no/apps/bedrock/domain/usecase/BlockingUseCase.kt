@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package no.apps.bedrock.domain.usecase
 
 interface BlockingUseCase0<out T> {

@@ -2,11 +2,14 @@ package no.apps.bedrock.domain.viewmodel
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import no.apps.bedrock.utils.DispatcherProvider
 import no.apps.bedrock.utils.StandardDispatcherProvider
 import kotlin.coroutines.CoroutineContext
 
+@ExperimentalCoroutinesApi
+@Suppress("MemberVisibilityCanBePrivate", "unused")
 abstract class AppsViewModel<A>(
     private val dispatcherProvider: DispatcherProvider = StandardDispatcherProvider
 ) : ViewModel(), CoroutineScope {

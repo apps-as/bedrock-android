@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package no.apps.bedrock.domain.usecase
 
 import kotlinx.coroutines.Dispatchers

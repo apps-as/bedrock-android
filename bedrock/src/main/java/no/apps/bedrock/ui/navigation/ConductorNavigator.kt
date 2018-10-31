@@ -3,9 +3,9 @@ package no.apps.bedrock.ui.navigation
 import com.bluelinelabs.conductor.RouterTransaction
 import com.bluelinelabs.conductor.changehandler.SimpleSwapChangeHandler
 import no.apps.bedrock.di.scope.ActivityScope
-import no.apps.bedrock.ui.activity.RouterOwner
 import javax.inject.Inject
 
+@Suppress("unused")
 @ActivityScope
 class ConductorNavigator @Inject constructor(
     private val routerOwner: RouterOwner,

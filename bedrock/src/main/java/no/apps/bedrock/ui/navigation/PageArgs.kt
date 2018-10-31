@@ -12,6 +12,7 @@ interface PageArgs : Parcelable {
     val tag: String
 }
 
+@Suppress("unused")
 fun PageArgs.toBundle() = bundleOf(PageArgs.ARGS_KEY to this)
 fun <T : PageArgs> Bundle.toArgs() =
     getParcelable<T>(PageArgs.ARGS_KEY)

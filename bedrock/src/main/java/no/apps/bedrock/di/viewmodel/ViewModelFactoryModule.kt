@@ -5,6 +5,7 @@ import dagger.Binds
 import dagger.Module
 import no.apps.bedrock.domain.viewmodel.ViewModelFactory
 
+@Suppress("unused")
 @Module
 abstract class ViewModelFactoryModule {
     @Binds
