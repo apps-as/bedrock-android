@@ -21,25 +21,16 @@ object ConductorInjection {
     }
 
     private fun findHasControllerInjector(controller: Controller): HasControllerInjector {
-        var parentController: Controller?
-        do {
-            parentController = controller.parentController
-            if (parentController == null) {
-                val parentActivity = controller.activity
-                if (parentActivity is HasControllerInjector) {
-                    return parentActivity
-                }
+        return findInjectorParent(controller) ?: controller.activity?.let {
+            (it as? HasControllerInjector) ?: (it.application as? HasControllerInjector)
+        }
+        ?: throw IllegalArgumentException("No injector was found for ${controller.javaClass.canonicalName}")
+    }
 
-                val parentApplication = parentActivity?.application
-                if (parentApplication is HasControllerInjector) {
-                    return parentApplication
-                }
-
-                throw IllegalArgumentException(
-                    "No injector was found for ${controller.javaClass.canonicalName}"
-                )
-            }
-        } while (parentController !is HasControllerInjector)
-        return parentController
+    private tailrec fun findInjectorParent(controller: Controller): HasControllerInjector? {
+        return when (val parentController = controller.parentController ?: return null) {
+            is HasControllerInjector -> parentController
+            else -> findInjectorParent(parentController)
+        }
     }
 }

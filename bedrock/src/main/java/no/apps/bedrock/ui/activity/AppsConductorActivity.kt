@@ -10,17 +10,17 @@ import dagger.android.DispatchingAndroidInjector
 import no.apps.bedrock.di.conductor.HasControllerInjector
 import no.apps.bedrock.ui.navigation.Navigator
 import no.apps.bedrock.ui.navigation.PageArgs
-import no.apps.bedrock.ui.navigation.RouterOwner
 import javax.inject.Inject
 
-abstract class AppsConductorActivity : AppsDaggerActivity(), HasControllerInjector, RouterOwner {
+@Suppress("MemberVisibilityCanBePrivate")
+abstract class AppsConductorActivity : AppsDaggerActivity(), HasControllerInjector {
     @Inject
     override lateinit var controllerInjector: DispatchingAndroidInjector<Controller>
 
     @Inject
     lateinit var navigator: Navigator
 
-    override lateinit var router: Router
+    lateinit var router: Router
 
     abstract val conductorContainer: ViewGroup
     protected open val defaultPageArgs: PageArgs? = null

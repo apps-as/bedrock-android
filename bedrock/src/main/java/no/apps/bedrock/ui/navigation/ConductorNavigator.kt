@@ -8,13 +8,13 @@ import javax.inject.Inject
 @Suppress("unused")
 @ActivityScope
 class ConductorNavigator @Inject constructor(
-    private val routerOwner: RouterOwner,
+    private val getRouter: GetRouter,
     private val getNavigationContext: GetNavigationContext,
     private val getChangeHandler: GetChangeHandler,
     private val getController: GetController
 ) : Navigator {
     override fun navigate(currentPage: PageArgs?, nextPage: PageArgs) {
-        val router = routerOwner.router
+        val router = getRouter(currentPage, nextPage)
         val tag = nextPage.tag
         val nextController = getController(nextPage)
         val swapTransaction = RouterTransaction.with(nextController).tag(tag)
