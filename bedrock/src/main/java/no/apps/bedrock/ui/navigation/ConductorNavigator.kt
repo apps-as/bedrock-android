@@ -40,6 +40,12 @@ class ConductorNavigator @Inject constructor(
                 router.setBackstack(newStack, SimpleSwapChangeHandler())
             }
         }
+        if (navigationContext.currentIsTarget) {
+            val currentController = router.backstack.lastOrNull()?.controller()
+            if (currentController != null) {
+                nextController.targetController = currentController
+            }
+        }
         val changeHandler = getChangeHandler(currentPage, nextPage)
         val changeTransaction = swapTransaction
             .pushChangeHandler(changeHandler)
