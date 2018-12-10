@@ -28,3 +28,19 @@ interface AsyncUseCase2<in P1, in P2, out T> {
             execute(p1, p2)
         }
 }
+
+interface AsyncUseCase3<in P1, in P2, in P3, out T> {
+    suspend fun execute(p1: P1, p2: P2, p3: P3): T
+    suspend operator fun invoke(p1: P1, p2: P2, p3: P3): T =
+        withContext(Dispatchers.Default) {
+            execute(p1, p2, p3)
+        }
+}
+
+interface AsyncUseCase4<in P1, in P2, in P3, in P4, out T> {
+    suspend fun execute(p1: P1, p2: P2, p3: P3, p4: P4): T
+    suspend operator fun invoke(p1: P1, p2: P2, p3: P3, p4: P4): T =
+        withContext(Dispatchers.Default) {
+            execute(p1, p2, p3, p4)
+        }
+}
