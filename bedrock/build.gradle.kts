@@ -39,19 +39,19 @@ androidExtensions {
 }
 
 dependencies {
-    implementation(kotlinCore)
-    implementation(coroutinesCore)
-    implementation(coroutinesAndroid)
+    api(kotlinCore)
+    api(coroutinesCore)
+    api(coroutinesAndroid)
 
-    implementation(lifecycle)
-    implementation(viewModelKtx)
-    implementation(coreKtx)
+    api(lifecycle)
+    api(viewModelKtx)
+    api(coreKtx)
 
-    implementation(conductor)
-    implementation(conductorLifecycle)
+    api(conductor)
+    api(conductorLifecycle)
 
-    implementation(dagger)
-    implementation(daggerAndroid)
+    api(dagger)
+    api(daggerAndroid)
     kapt(daggerAndroidProcessor)
     kapt(daggerProcessor)
 }
