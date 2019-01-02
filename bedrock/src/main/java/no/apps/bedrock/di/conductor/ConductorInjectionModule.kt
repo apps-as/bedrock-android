@@ -9,8 +9,8 @@ import dagger.multibindings.Multibinds
 @Module
 abstract class ConductorInjectionModule private constructor() {
     @Multibinds
-    internal abstract fun controllerInjectorFactories(): Map<Class<out Controller>, AndroidInjector.Factory<out Controller>>
+    internal abstract fun controllerInjectorFactories(): Map<Class<out Controller>, AndroidInjector.Factory<*>>
 
     @Multibinds
-    internal abstract fun controllerInjectorFactoriesWithStringKeys(): Map<String, AndroidInjector.Factory<out Controller>>
+    internal abstract fun controllerInjectorFactoriesWithStringKeys(): Map<String, AndroidInjector.Factory<*>>
 }

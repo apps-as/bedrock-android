@@ -1,6 +1,6 @@
 import Versions.App.conductorVersion
 import Versions.App.dagger2Version
-import Versions.App.jetpackVersion
+import Versions.App.coreVersion
 import Versions.App.kotlinCoroutinesVersion
 import Versions.App.lifecycleVersion
 import Versions.Shared.kotlinVersion
@@ -14,7 +14,7 @@ object AndroidConfig {
     val sourceCompatibility = JavaVersion.VERSION_1_8
     val targetCompatibility = JavaVersion.VERSION_1_8
     val versionCode = 1
-    val versionName = "1.0.11"
+    val versionName = "1.0.12"
 }
 
 object Versions {
@@ -23,16 +23,16 @@ object Versions {
     }
 
     object App {
-        val kotlinCoroutinesVersion = "1.0.1"
-        val conductorVersion = "2.1.5"
-        val lifecycleVersion = "2.0.0"
-        val jetpackVersion = "1.0.1"
-        val dagger2Version = "2.19"
+        val kotlinCoroutinesVersion = "1.1.0"
+        val conductorVersion = "3.0.0-rc1"
+        val lifecycleVersion = "2.1.0-alpha01"
+        val coreVersion = "1.1.0-alpha03"
+        val dagger2Version = "2.20"
     }
 
     object BuildScript {
         val dependenciesVersion = "0.20.0"
-        val buildToolsVersion = "3.3.0-rc02"
+        val buildToolsVersion = "3.3.0-rc03"
         val androidMavenPublishVersion = "3.6.2"
     }
 }
@@ -42,7 +42,7 @@ val coroutinesCore get() = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotli
 val coroutinesAndroid get() = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinCoroutinesVersion"
 val lifecycle get() = "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
 val viewModelKtx get() = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
-val coreKtx get() = "androidx.core:core-ktx:$jetpackVersion"
+val coreKtx get() = "androidx.core:core-ktx:$coreVersion"
 val conductor get() = "com.bluelinelabs:conductor:$conductorVersion"
 val conductorLifecycle get() = "com.bluelinelabs:conductor-archlifecycle:$conductorVersion"
 val dagger get() = "com.google.dagger:dagger:$dagger2Version"
