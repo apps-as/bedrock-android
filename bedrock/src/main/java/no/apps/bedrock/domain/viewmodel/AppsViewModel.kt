@@ -10,7 +10,7 @@ import kotlin.coroutines.CoroutineContext
 
 @ExperimentalCoroutinesApi
 @Suppress("MemberVisibilityCanBePrivate", "unused")
-abstract class AppsViewModel<A>(
+abstract class AppsViewModel<A : Any>(
     private val dispatcherProvider: DispatcherProvider = StandardDispatcherProvider
 ) : ViewModel(), CoroutineScope {
     protected val main
@@ -28,8 +28,9 @@ abstract class AppsViewModel<A>(
     override val coroutineContext: CoroutineContext
         get() = main + job
 
-    open fun setArgs(args: A) {
-    }
+    lateinit var args: A
+
+    open fun initialized() {}
 
     open fun onCreateView() {
     }
@@ -46,5 +47,12 @@ abstract class AppsViewModel<A>(
     override fun onCleared() {
         super.onCleared()
         job.cancel()
+    }
+
+    internal fun trySetArgs(args: A) {
+        if (!this::args.isInitialized) {
+            this.args = args
+            initialized()
+        }
     }
 }

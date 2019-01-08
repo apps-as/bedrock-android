@@ -22,7 +22,7 @@ import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
 @Suppress("unused", "MemberVisibilityCanBePrivate")
-abstract class AppsController<A : PageArgs, VMA, VM : AppsViewModel<VMA>> @JvmOverloads constructor(
+abstract class AppsController<A : PageArgs, VMA : Any, VM : AppsViewModel<VMA>> @JvmOverloads constructor(
     bundle: Bundle? = null
 ) : LifecycleController(bundle), LayoutContainer {
     private val viewModelStore = ViewModelStore()
@@ -44,7 +44,7 @@ abstract class AppsController<A : PageArgs, VMA, VM : AppsViewModel<VMA>> @JvmOv
     override fun onContextAvailable(context: Context) {
         ConductorInjection.inject(this)
         viewModel = buildViewModel(viewModelFactory, viewModelClass).apply {
-            setArgs(pageArgs.toViewModelArgs())
+            trySetArgs(pageArgs.toViewModelArgs())
         }
     }
 
