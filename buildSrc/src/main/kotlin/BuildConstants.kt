@@ -14,7 +14,7 @@ object AndroidConfig {
     val sourceCompatibility = JavaVersion.VERSION_1_8
     val targetCompatibility = JavaVersion.VERSION_1_8
     val versionCode = 1
-    val versionName = "1.0.13"
+    val versionName = "1.0.14"
 }
 
 object Versions {
@@ -44,7 +44,6 @@ val lifecycle get() = "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion
 val viewModelKtx get() = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
 val coreKtx get() = "androidx.core:core-ktx:$coreVersion"
 val conductor get() = "com.bluelinelabs:conductor:$conductorVersion"
-val conductorLifecycle get() = "com.bluelinelabs:conductor-archlifecycle:$conductorVersion"
 val dagger get() = "com.google.dagger:dagger:$dagger2Version"
 val daggerAndroid get() = "com.google.dagger:dagger-android-support:$dagger2Version"
 val daggerAndroidProcessor get() = "com.google.dagger:dagger-android-processor:$dagger2Version"

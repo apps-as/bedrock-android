@@ -48,7 +48,6 @@ dependencies {
     api(coreKtx)
 
     api(conductor)
-    api(conductorLifecycle)
 
     api(dagger)
     api(daggerAndroid)

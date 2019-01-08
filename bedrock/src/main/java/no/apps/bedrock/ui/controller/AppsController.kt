@@ -9,7 +9,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStore
-import com.bluelinelabs.conductor.archlifecycle.LifecycleController
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -41,7 +40,6 @@ abstract class AppsController<A : PageArgs, VMA, VM : AppsViewModel<VMA>> @JvmOv
     protected val pageArgs: A by lazy {
         args.toArgs<A>()
     }
-
 
     override fun onContextAvailable(context: Context) {
         ConductorInjection.inject(this)
