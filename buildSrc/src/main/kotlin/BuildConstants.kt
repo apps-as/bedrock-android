@@ -14,7 +14,7 @@ object AndroidConfig {
     val sourceCompatibility = JavaVersion.VERSION_1_8
     val targetCompatibility = JavaVersion.VERSION_1_8
     val versionCode = 1
-    val versionName = "1.1.0"
+    val versionName = "1.1.1"
 }
 
 object Versions {
@@ -27,12 +27,12 @@ object Versions {
         val conductorVersion = "3.0.0-rc1"
         val lifecycleVersion = "2.1.0-alpha01"
         val coreVersion = "1.1.0-alpha03"
-        val dagger2Version = "2.20"
+        val dagger2Version = "2.21"
     }
 
     object BuildScript {
         val dependenciesVersion = "0.20.0"
-        val buildToolsVersion = "3.3.0-rc03"
+        val buildToolsVersion = "3.3.0"
         val androidMavenPublishVersion = "3.6.2"
     }
 }
