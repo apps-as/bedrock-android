@@ -5,6 +5,7 @@ plugins {
     id("kotlin-android") version Versions.Shared.kotlinVersion
     id("kotlin-android-extensions") version Versions.Shared.kotlinVersion
     id("digital.wup.android-maven-publish") version Versions.BuildScript.androidMavenPublishVersion
+    kotlin("kapt") version Versions.Shared.kotlinVersion
 }
 
 android {
@@ -26,8 +27,8 @@ android {
         }
     }
     compileOptions {
-        setSourceCompatibility(AndroidConfig.sourceCompatibility)
-        setTargetCompatibility(AndroidConfig.targetCompatibility)
+        sourceCompatibility = AndroidConfig.sourceCompatibility
+        targetCompatibility = AndroidConfig.targetCompatibility
     }
 }
 

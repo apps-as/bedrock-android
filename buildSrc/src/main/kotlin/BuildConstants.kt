@@ -14,16 +14,16 @@ object AndroidConfig {
     val sourceCompatibility = JavaVersion.VERSION_1_8
     val targetCompatibility = JavaVersion.VERSION_1_8
     val versionCode = 1
-    val versionName = "1.1.1"
+    val versionName = "1.1.2"
 }
 
 object Versions {
     object Shared {
-        val kotlinVersion = "1.3.11"
+        val kotlinVersion = "1.3.20"
     }
 
     object App {
-        val kotlinCoroutinesVersion = "1.1.0"
+        val kotlinCoroutinesVersion = "1.1.1"
         val conductorVersion = "3.0.0-rc1"
         val lifecycleVersion = "2.1.0-alpha01"
         val coreVersion = "1.1.0-alpha03"
