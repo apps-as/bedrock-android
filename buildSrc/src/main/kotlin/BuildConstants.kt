@@ -14,7 +14,7 @@ object AndroidConfig {
     val sourceCompatibility = JavaVersion.VERSION_1_8
     val targetCompatibility = JavaVersion.VERSION_1_8
     val versionCode = 1
-    val versionName = "1.1.3"
+    val versionName = "1.1.4"
 }
 
 object Versions {
