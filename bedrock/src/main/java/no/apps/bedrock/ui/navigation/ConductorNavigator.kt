@@ -3,6 +3,8 @@ package no.apps.bedrock.ui.navigation
 import com.bluelinelabs.conductor.RouterTransaction
 import com.bluelinelabs.conductor.changehandler.SimpleSwapChangeHandler
 import no.apps.bedrock.di.scope.ActivityScope
+import no.apps.bedrock.ui.controller.NeedsTarget
+import no.apps.bedrock.ui.controller.ProvidesTarget
 import javax.inject.Inject
 
 @Suppress("unused")
@@ -40,11 +42,10 @@ class ConductorNavigator @Inject constructor(
                 router.setBackstack(newStack, SimpleSwapChangeHandler())
             }
         }
-        if (navigationContext.currentIsTarget) {
+        if (nextController is NeedsTarget) {
             val currentController = router.backstack.lastOrNull()?.controller()
-            if (currentController != null) {
-                nextController.targetController = currentController
-            }
+            nextController.targetController =
+                (currentController as? ProvidesTarget)?.target ?: currentController
         }
         val changeHandler = getChangeHandler(currentPage, nextPage)
         val changeTransaction = swapTransaction
