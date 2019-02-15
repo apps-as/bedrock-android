@@ -2,14 +2,7 @@ package no.apps.bedrock.ui.controller
 
 import com.bluelinelabs.conductor.Controller
 
-interface NeedsTarget {
-    @Suppress("UNCHECKED_CAST")
-    fun <T : Any, R : Any?> Controller.withTarget(block: T.() -> R): R? {
-        val target = try {
-            targetController as? T
-        } catch (ignored: ClassCastException) {
-            null
-        }
-        return target?.block()
-    }
-}
+interface NeedsTarget
+
+inline fun <reified T : Any, R : Any?> NeedsTarget.withTarget(block: T.() -> R): R? =
+    ((this as? Controller)?.targetController as? T)?.block()
