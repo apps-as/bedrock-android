@@ -19,12 +19,12 @@ internal class ControllerLifecycleOwner(
                 lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_CREATE)
             }
 
-            override fun postAttach(controller: Controller, view: View) {
+            override fun preAttach(controller: Controller, view: View) {
                 lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
                 lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
             }
 
-            override fun preDetach(controller: Controller, view: View) {
+            override fun postDetach(controller: Controller, view: View) {
                 lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_PAUSE)
                 lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP)
             }
