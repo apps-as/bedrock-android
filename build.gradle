@@ -1,0 +1,33 @@
+buildscript {
+    repositories {
+        google()
+        jcenter()
+    }
+
+    dependencies {
+        classpath Libs.androidGradlePlugin
+        classpath Libs.kotlinGradlePlugin
+        classpath Libs.dependenciesGradlePlugin
+        classpath Libs.mavenPublishGradlePlugin
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        maven {
+            url "s3://no.apps.maven.s3.amazonaws.com"
+            credentials(AwsCredentials) {
+                accessKey rootProject.properties["maven.access"]
+                secretKey rootProject.properties["maven.secret"]
+            }
+        }
+    }
+}
+
+apply plugin: "com.github.ben-manes.versions"
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

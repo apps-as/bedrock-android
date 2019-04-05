@@ -1,0 +1,76 @@
+apply plugin: "com.android.library"
+apply plugin: "kotlin-android"
+apply plugin: "kotlin-android-extensions"
+apply plugin: "kotlin-kapt"
+apply plugin: "digital.wup.android-maven-publish"
+
+android {
+    compileSdkVersion AndroidConfig.compileVersion
+    buildToolsVersion AndroidConfig.buildToolsSdkVersion
+
+    defaultConfig {
+        minSdkVersion AndroidConfig.minSdkVersion
+        targetSdkVersion AndroidConfig.targetSdkVersion
+        versionCode AndroidConfig.versionCode
+        versionName AndroidConfig.versionName
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+        debug {
+
+        }
+    }
+    compileOptions {
+        sourceCompatibility AndroidConfig.sourceCompatibility
+        targetCompatibility AndroidConfig.targetCompatibility
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+androidExtensions {
+    experimental true
+}
+
+dependencies {
+    api Libs.kotlinCore
+    api Libs.coroutinesCore
+    api Libs.coroutinesAndroid
+
+    api Libs.lifecycle
+    api Libs.viewModelKtx
+    api Libs.coreKtx
+
+    api Libs.conductor
+
+    api Libs.dagger
+    api Libs.daggerAndroid
+    kapt Libs.daggerAndroidProcessor
+    kapt Libs.daggerProcessor
+}
+
+// Publish
+publishing {
+    publications {
+        mavenAar(MavenPublication) {
+            from components.android
+            groupId "no.apps"
+            artifactId "bedrock"
+            version android.defaultConfig.versionName
+        }
+    }
+    repositories {
+        maven {
+            url "s3://no.apps.maven.s3.amazonaws.com"
+            credentials(AwsCredentials) {
+                accessKey rootProject.properties["maven.access"]
+                secretKey rootProject.properties["maven.secret"]
+            }
+        }
+    }
+}
