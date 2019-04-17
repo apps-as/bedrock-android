@@ -10,7 +10,7 @@ object AndroidConfig {
     val sourceCompatibility = JavaVersion.VERSION_1_8
     val targetCompatibility = JavaVersion.VERSION_1_8
     const val versionCode = 1
-    const val versionName = "1.1.7"
+    const val versionName = "1.2.0"
 }
 
 object Libs {
@@ -40,10 +40,10 @@ object Libs {
 
 private const val androidMavenPublishVersion = "3.6.2"
 private const val buildToolsVersion = "3.3.0"
-private const val conductorVersion = "3.0.0-rc1"
+private const val conductorVersion = "3.0.0-rc2"
 private const val coreVersion = "1.1.0-alpha05"
 private const val dagger2Version = "2.22.1"
 private const val dependenciesVersion = "0.21.0"
-private const val kotlinCoroutinesVersion = "1.2.0-alpha-2"
-private const val kotlinVersion = "1.3.21"
+private const val kotlinCoroutinesVersion = "1.2.0"
+private const val kotlinVersion = "1.3.30"
 private const val lifecycleVersion = "2.1.0-alpha04"
