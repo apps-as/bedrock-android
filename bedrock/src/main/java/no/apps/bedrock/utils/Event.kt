@@ -22,5 +22,3 @@ class Event<out T : Any>(content: T) {
         }
     }
 }
-
-

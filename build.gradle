@@ -3,12 +3,12 @@ buildscript {
         google()
         jcenter()
         maven {
-            url "http://storage.googleapis.com/r8-releases/raw/master"
+            url "http://storage.googleapis.com/r8-releases/raw"
         }
     }
 
     dependencies {
-        classpath 'com.android.tools:r8:db49dbc78dc4a4da9d0be0c32a135bef50689343' // TODO needed for proper Boolean.hashCode desugaring https://issuetracker.google.com/issues/129730297
+        classpath 'com.android.tools:r8:1.4.88' // TODO needed for proper Boolean.hashCode desugaring https://issuetracker.google.com/issues/129730297
         classpath Libs.androidGradlePlugin
         classpath Libs.kotlinGradlePlugin
         classpath Libs.dependenciesGradlePlugin

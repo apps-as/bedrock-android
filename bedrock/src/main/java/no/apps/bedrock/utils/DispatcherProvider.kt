@@ -7,21 +7,21 @@ import kotlin.coroutines.CoroutineContext
 object DispatcherProvider {
     @JvmStatic
     val main: CoroutineContext
-        get() = dispatcherOverride(Dispatchers.Main)
+        get() = dispatcherOverride { Dispatchers.Main }
     @JvmStatic
     val io: CoroutineContext
-        get() = dispatcherOverride(Dispatchers.IO)
+        get() = dispatcherOverride { Dispatchers.IO }
     @JvmStatic
     val computation: CoroutineContext
-        get() = dispatcherOverride(Dispatchers.Default)
+        get() = dispatcherOverride { Dispatchers.Default }
     @JvmStatic
     val unconfined: CoroutineContext
-        get() = dispatcherOverride(Dispatchers.Unconfined)
+        get() = dispatcherOverride { Dispatchers.Unconfined }
     @JvmStatic
     val mainImmediate: CoroutineContext
-        get() = dispatcherOverride(Dispatchers.Main.immediate)
+        get() = dispatcherOverride { Dispatchers.Main.immediate }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     @JvmStatic
-    var dispatcherOverride: (CoroutineContext) -> CoroutineContext = { it }
+    var dispatcherOverride: (() -> CoroutineContext) -> CoroutineContext = { it() }
 }
