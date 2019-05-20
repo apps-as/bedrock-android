@@ -10,7 +10,7 @@ object AndroidConfig {
     val sourceCompatibility = JavaVersion.VERSION_1_8
     val targetCompatibility = JavaVersion.VERSION_1_8
     const val versionCode = 1
-    const val versionName = "1.2.2"
+    const val versionName = "1.2.3"
 }
 
 object Libs {

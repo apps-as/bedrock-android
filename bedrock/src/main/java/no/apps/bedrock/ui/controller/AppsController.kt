@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.CallSuper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -85,11 +86,13 @@ abstract class AppsController<A : PageArgs, VMA : Any, VM : AppsViewModel<VMA>> 
         }
     }
 
-    protected fun navigate(args: PageArgs) {
+    @CallSuper
+    protected open fun navigate(args: PageArgs) {
         navigator.navigate(pageArgs, args)
     }
 
-    protected fun goBack() {
+    @CallSuper
+    protected open fun goBack() {
         activity?.onBackPressed()
     }
 
