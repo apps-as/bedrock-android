@@ -5,6 +5,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import com.bluelinelabs.conductor.Controller
+import timber.log.Timber
 
 internal class ControllerLifecycleOwner(
     controller: Controller
@@ -16,23 +17,31 @@ internal class ControllerLifecycleOwner(
             Controller.LifecycleListener() {
 
             override fun preCreateView(controller: Controller) {
-                lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_CREATE)
+                trySetLifeCycleEvent(Lifecycle.Event.ON_CREATE)
             }
 
             override fun preAttach(controller: Controller, view: View) {
-                lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
-                lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
+                trySetLifeCycleEvent(Lifecycle.Event.ON_START)
+                trySetLifeCycleEvent(Lifecycle.Event.ON_RESUME)
             }
 
             override fun postDetach(controller: Controller, view: View) {
-                lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-                lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP)
+                trySetLifeCycleEvent(Lifecycle.Event.ON_PAUSE)
+                trySetLifeCycleEvent(Lifecycle.Event.ON_STOP)
             }
 
             override fun postDestroyView(controller: Controller) {
-                lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+                trySetLifeCycleEvent(Lifecycle.Event.ON_DESTROY)
             }
         })
+    }
+
+    private fun trySetLifeCycleEvent(event: Lifecycle.Event) {
+        try {
+            lifecycleRegistry.handleLifecycleEvent(event)
+        } catch (t: Throwable) {
+            Timber.w(t, "Couldn't set controller lifecycle --> Possible leak")
+        }
     }
 
     override fun getLifecycle(): Lifecycle {

@@ -47,6 +47,7 @@ dependencies {
     api Libs.coreKtx
 
     api Libs.conductor
+    implementation Libs.timber
 
     api Libs.dagger
     api Libs.daggerAndroid
