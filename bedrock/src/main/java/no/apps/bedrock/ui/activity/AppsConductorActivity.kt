@@ -4,18 +4,17 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.ViewGroup
 import com.bluelinelabs.conductor.Conductor
-import com.bluelinelabs.conductor.Controller
 import com.bluelinelabs.conductor.Router
 import dagger.android.DispatchingAndroidInjector
-import no.apps.bedrock.di.conductor.HasControllerInjector
+import dagger.android.HasAndroidInjector
 import no.apps.bedrock.ui.navigation.Navigator
 import no.apps.bedrock.ui.navigation.PageArgs
 import javax.inject.Inject
 
 @Suppress("MemberVisibilityCanBePrivate")
-abstract class AppsConductorActivity : AppsDaggerActivity(), HasControllerInjector {
+abstract class AppsConductorActivity : AppsDaggerActivity(), HasAndroidInjector {
     @Inject
-    override lateinit var controllerInjector: DispatchingAndroidInjector<Controller>
+    lateinit var androidInjector: DispatchingAndroidInjector<Any>
 
     @Inject
     lateinit var navigator: Navigator
@@ -24,6 +23,8 @@ abstract class AppsConductorActivity : AppsDaggerActivity(), HasControllerInject
 
     abstract val conductorContainer: ViewGroup
     protected open val defaultPageArgs: PageArgs? = null
+
+    override fun androidInjector() = androidInjector
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

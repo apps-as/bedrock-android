@@ -1,18 +1,14 @@
 package no.apps.bedrock.di.conductor
 
-import android.util.Log
 import com.bluelinelabs.conductor.Controller
+import dagger.android.HasAndroidInjector
 import dagger.internal.Preconditions
 
 object ConductorInjection {
     fun inject(controller: Controller) {
         Preconditions.checkNotNull(controller, "controller")
         val hasDispatchingControllerInjector = findHasControllerInjector(controller)
-        Log.d(
-            "dagger.android",
-            "An injector for ${controller.javaClass.canonicalName} was found in ${hasDispatchingControllerInjector.javaClass.canonicalName}"
-        )
-        val controllerInjector = hasDispatchingControllerInjector.controllerInjector
+        val controllerInjector = hasDispatchingControllerInjector.androidInjector()
         Preconditions.checkNotNull(
             controllerInjector, "%s.controllerInjector() returned null",
             hasDispatchingControllerInjector.javaClass.canonicalName
@@ -20,16 +16,16 @@ object ConductorInjection {
         controllerInjector.inject(controller)
     }
 
-    private fun findHasControllerInjector(controller: Controller): HasControllerInjector {
+    private fun findHasControllerInjector(controller: Controller): HasAndroidInjector {
         return findInjectorParent(controller) ?: controller.activity?.let {
-            (it as? HasControllerInjector) ?: (it.application as? HasControllerInjector)
+            (it as? HasAndroidInjector) ?: (it.application as? HasAndroidInjector)
         }
         ?: throw IllegalArgumentException("No injector was found for ${controller.javaClass.canonicalName}")
     }
 
-    private tailrec fun findInjectorParent(controller: Controller): HasControllerInjector? {
+    private tailrec fun findInjectorParent(controller: Controller): HasAndroidInjector? {
         return when (val parentController = controller.parentController ?: return null) {
-            is HasControllerInjector -> parentController
+            is HasAndroidInjector -> parentController
             else -> findInjectorParent(parentController)
         }
     }

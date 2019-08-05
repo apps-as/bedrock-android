@@ -1,15 +1,15 @@
 package no.apps.bedrock
 
-import android.app.Activity
 import android.app.Application
+import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasActivityInjector
+import dagger.android.HasAndroidInjector
 import javax.inject.Inject
 
 @Suppress("unused")
-abstract class AppsApplication : Application(), HasActivityInjector {
+abstract class AppsApplication : Application(), HasAndroidInjector {
     @Inject
-    lateinit var dispatchingActivityInjector: DispatchingAndroidInjector<Activity>
+    lateinit var androidInjector: DispatchingAndroidInjector<Any>
 
     override fun onCreate() {
         super.onCreate()
@@ -18,5 +18,5 @@ abstract class AppsApplication : Application(), HasActivityInjector {
 
     abstract fun inject()
 
-    override fun activityInjector() = dispatchingActivityInjector
+    override fun androidInjector(): AndroidInjector<Any> = androidInjector
 }

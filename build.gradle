@@ -19,8 +19,8 @@ allprojects {
         maven {
             url "s3://no.apps.maven.s3.amazonaws.com"
             credentials(AwsCredentials) {
-                accessKey rootProject.properties["maven.access"]
-                secretKey rootProject.properties["maven.secret"]
+                accessKey rootProject.properties["maven_access"]
+                secretKey rootProject.properties["maven_secret"]
             }
         }
     }
