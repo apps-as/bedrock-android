@@ -3,6 +3,7 @@ package no.apps.bedrock.domain.viewmodel
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
 import no.apps.bedrock.utils.DispatcherProvider
 import kotlin.coroutines.CoroutineContext
 
@@ -14,7 +15,7 @@ abstract class AppsViewModel<A : Any> : ViewModel(), CoroutineScope {
     protected val bg = DispatcherProvider.computation
     protected val immediate = DispatcherProvider.mainImmediate
 
-    private val job = Job()
+    private val job = SupervisorJob()
     override val coroutineContext: CoroutineContext = immediate + job
 
     lateinit var args: A
