@@ -28,6 +28,7 @@ abstract class AppsConductorActivity : AppsDaggerActivity(), HasAndroidInjector 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        configureBeforeAttach()
         router = Conductor.attachRouter(
             this,
             conductorContainer,
@@ -48,5 +49,8 @@ abstract class AppsConductorActivity : AppsDaggerActivity(), HasAndroidInjector 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         router.onActivityResult(requestCode, resultCode, data)
+    }
+
+    protected open fun configureBeforeAttach() {
     }
 }
