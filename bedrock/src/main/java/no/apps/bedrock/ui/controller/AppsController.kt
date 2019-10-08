@@ -86,7 +86,7 @@ abstract class AppsController<A : PageArgs, VMA : Any, VM : AppsViewModel<VMA>> 
 
     @CallSuper
     protected open fun navigate(args: PageArgs) {
-        navigator.navigate(pageArgs, args)
+        navigator.navigate(pageArgs, args, this)
     }
 
     @CallSuper

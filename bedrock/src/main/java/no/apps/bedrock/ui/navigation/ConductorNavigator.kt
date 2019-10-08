@@ -1,5 +1,6 @@
 package no.apps.bedrock.ui.navigation
 
+import com.bluelinelabs.conductor.Controller
 import com.bluelinelabs.conductor.RouterTransaction
 import com.bluelinelabs.conductor.changehandler.SimpleSwapChangeHandler
 import no.apps.bedrock.di.scope.ActivityScope
@@ -15,7 +16,11 @@ class ConductorNavigator @Inject constructor(
     private val getChangeHandler: GetChangeHandler,
     private val getController: GetController
 ) : Navigator {
-    override fun navigate(currentPage: PageArgs?, nextPage: PageArgs) {
+    override fun navigate(
+        currentPage: PageArgs?,
+        nextPage: PageArgs,
+        targetController: Controller?
+    ) {
         val router = getRouter(currentPage, nextPage)
         val tag = nextPage.tag
         val nextController = getController(nextPage)
@@ -43,7 +48,7 @@ class ConductorNavigator @Inject constructor(
             }
         }
         if (nextController is NeedsTarget) {
-            val currentController = router.backstack.lastOrNull()?.controller()
+            val currentController = targetController ?: router.backstack.lastOrNull()?.controller()
             nextController.targetController =
                 (currentController as? ProvidesTarget)?.target ?: currentController
         }
