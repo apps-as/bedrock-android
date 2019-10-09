@@ -12,20 +12,35 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStore
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.*
+import kotlinx.coroutines.*
 import no.apps.bedrock.di.conductor.ConductorInjection
 import no.apps.bedrock.domain.viewmodel.AppsViewModel
 import no.apps.bedrock.ui.navigation.Navigator
 import no.apps.bedrock.ui.navigation.PageArgs
 import no.apps.bedrock.ui.navigation.toArgs
+import no.apps.bedrock.utils.DispatcherProvider
 import no.apps.bedrock.utils.Event
 import javax.inject.Inject
+import kotlin.coroutines.Continuation
+import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 @Suppress("unused", "MemberVisibilityCanBePrivate")
 abstract class AppsController<A : PageArgs, VMA : Any, VM : AppsViewModel<VMA>> @JvmOverloads constructor(
     bundle: Bundle? = null
-) : LifecycleController(bundle), LayoutContainer {
+) : LifecycleController(bundle), LayoutContainer, CoroutineScope {
+    companion object {
+        const val MAX_NAVIGATION_BLOCK = 1000L
+    }
+
     private val viewModelStore = ViewModelStore()
+    private val job = SupervisorJob()
+    private var detachContinuation: Continuation<Unit>? = null
+    private var pendingNavigation = false
     override var containerView: View? = null
+
+    override val coroutineContext: CoroutineContext = DispatcherProvider.mainImmediate + job
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -63,6 +78,7 @@ abstract class AppsController<A : PageArgs, VMA : Any, VM : AppsViewModel<VMA>> 
 
     override fun onDetach(view: View) {
         viewModel.onDetach()
+        detachContinuation?.resume(Unit)
     }
 
     override fun onDestroyView(view: View) {
@@ -73,6 +89,7 @@ abstract class AppsController<A : PageArgs, VMA : Any, VM : AppsViewModel<VMA>> 
 
     override fun onDestroy() {
         viewModelStore.clear()
+        job.cancel()
     }
 
     protected inline fun <T : Any?> withContext(block: (Context) -> T): T? {
@@ -86,6 +103,19 @@ abstract class AppsController<A : PageArgs, VMA : Any, VM : AppsViewModel<VMA>> 
 
     @CallSuper
     protected open fun navigate(args: PageArgs) {
+        if (pendingNavigation) {
+            return
+        }
+        pendingNavigation = true
+        launch {
+            withTimeoutOrNull(MAX_NAVIGATION_BLOCK) {
+                suspendCoroutine<Unit> {
+                    detachContinuation = it
+                }
+            }
+            detachContinuation = null
+            pendingNavigation = false
+        }
         navigator.navigate(pageArgs, args, this)
     }
 
