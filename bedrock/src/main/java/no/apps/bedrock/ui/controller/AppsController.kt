@@ -12,7 +12,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStore
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeoutOrNull
 import no.apps.bedrock.di.conductor.ConductorInjection
 import no.apps.bedrock.domain.viewmodel.AppsViewModel
 import no.apps.bedrock.ui.navigation.Navigator
@@ -20,6 +23,7 @@ import no.apps.bedrock.ui.navigation.PageArgs
 import no.apps.bedrock.ui.navigation.toArgs
 import no.apps.bedrock.utils.DispatcherProvider
 import no.apps.bedrock.utils.Event
+import timber.log.Timber
 import javax.inject.Inject
 import kotlin.coroutines.Continuation
 import kotlin.coroutines.CoroutineContext
@@ -103,7 +107,8 @@ abstract class AppsController<A : PageArgs, VMA : Any, VM : AppsViewModel<VMA>> 
 
     @CallSuper
     protected open fun navigate(args: PageArgs) {
-        if (pendingNavigation) {
+        if (pendingNavigation || !isAttached) {
+            Timber.w("Skipping navigation: pending: $pendingNavigation, attached: $isAttached")
             return
         }
         pendingNavigation = true
