@@ -6,11 +6,11 @@ object AndroidConfig {
     const val compileVersion = 29
     const val minSdkVersion = 23
     const val targetSdkVersion = 29
-    const val buildToolsSdkVersion = "29.0.2"
+    const val buildToolsSdkVersion = "29.0.3"
     val sourceCompatibility = JavaVersion.VERSION_1_8
     val targetCompatibility = JavaVersion.VERSION_1_8
     const val versionCode = 1
-    const val versionName = "1.2.11"
+    const val versionName = "1.2.12"
 }
 
 object Libs {
@@ -41,13 +41,13 @@ object Libs {
     const val mavenPublishGradlePlugin = "digital.wup:android-maven-publish:$androidMavenPublishVersion"
 }
 
-private const val androidMavenPublishVersion = "3.6.2"
-private const val buildToolsVersion = "3.6.0-beta01"
-private const val conductorVersion = "3.0.0-rc2"
-private const val coreVersion = "1.2.0-beta01"
-private const val dagger2Version = "2.24"
-private const val dependenciesVersion = "0.27.0"
-private const val kotlinCoroutinesVersion = "1.3.2"
-private const val kotlinVersion = "1.3.50"
-private const val lifecycleVersion = "2.2.0-beta01"
+private const val androidMavenPublishVersion = "3.6.3"
+private const val buildToolsVersion = "4.0.0"
+private const val conductorVersion = "3.0.0-rc5"
+private const val coreVersion = "1.3.0"
+private const val dagger2Version = "2.28"
+private const val dependenciesVersion = "0.28.0"
+private const val kotlinCoroutinesVersion = "1.3.7"
+private const val kotlinVersion = "1.3.72"
+private const val lifecycleVersion = "2.2.0"
 private const val timberVersion = "4.7.1"

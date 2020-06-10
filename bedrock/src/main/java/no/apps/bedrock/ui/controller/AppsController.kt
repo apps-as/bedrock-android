@@ -68,12 +68,14 @@ abstract class AppsController<A : PageArgs, VMA : Any, VM : AppsViewModel<VMA>> 
 
     abstract fun A.toViewModelArgs(): VMA
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
-        return inflater.inflate(layoutId, container, false).also {
-            containerView = it
-            initView(it.context)
-            viewModel.onCreateView()
-        }
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup,
+        savedViewState: Bundle?
+    ): View = inflater.inflate(layoutId, container, false).also {
+        containerView = it
+        initView(it.context)
+        viewModel.onCreateView()
     }
 
     override fun onAttach(view: View) {

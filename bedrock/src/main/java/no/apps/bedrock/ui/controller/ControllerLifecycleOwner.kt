@@ -9,12 +9,12 @@ import timber.log.Timber
 
 internal class ControllerLifecycleOwner(
     controller: Controller
-) : Controller.LifecycleListener(), LifecycleOwner {
+) : Controller.LifecycleListener, LifecycleOwner {
     private val lifecycleRegistry = LifecycleRegistry(this)
 
     init {
         controller.addLifecycleListener(object :
-            Controller.LifecycleListener() {
+            Controller.LifecycleListener {
 
             override fun preCreateView(controller: Controller) {
                 trySetLifeCycleEvent(Lifecycle.Event.ON_CREATE)
