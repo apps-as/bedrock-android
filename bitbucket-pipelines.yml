@@ -1,15 +1,13 @@
-image: java:8
 pipelines:
   default:
     - step:
         name: Commit work
         script:
           - echo "Thank you for feeding me with more code!"
-  custom:
-    publish-to-maven:
-      - variables:
-          - name: maven_secret
-          - name: maven_access
-      - step:
-          script:
-            - bash ./gradlew :bedrock:publish -Pmaven_access=$maven_access -Pmaven_secret=$maven_secret
+    - step:
+        name: Publish to Maven
+        image: java:8
+        trigger: manual
+        deployment: production
+        script:
+          - bash ./gradlew :bedrock:publish -Pmaven_access=$maven_access -Pmaven_secret=$maven_secret
