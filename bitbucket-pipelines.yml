@@ -7,9 +7,16 @@ pipelines:
     - step:
         caches:
           - gradle
+        name: Build app
+        image: androidsdk/android-30
+        script:
+          - bash ./gradlew clean assembleRelease -Pmaven_access=$MAVEN_ACCESS -Pmaven_secret=$MAVEN_SECRET
+    - step:
+        caches:
+          - gradle
         name: Publish to Maven
         image: androidsdk/android-30
         trigger: manual
         deployment: production
         script:
-          - bash ./gradlew :bedrock:publish -Pmaven_access=$maven_access -Pmaven_secret=$maven_secret
+          - bash ./gradlew :bedrock:publish -Pmaven_access=$MAVEN_ACCESS -Pmaven_secret=$MAVEN_SECRET
