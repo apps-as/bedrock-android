@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStore
 import kotlinx.android.extensions.LayoutContainer
@@ -68,7 +67,11 @@ abstract class AppsController<A : PageArgs, VMA : Any, VM : AppsViewModel<VMA>> 
 
     abstract fun A.toViewModelArgs(): VMA
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup,
+        savedViewState: Bundle?
+    ): View {
         return inflater.inflate(layoutId, container, false).also {
             containerView = it
             initView(it.context)
@@ -140,6 +143,6 @@ abstract class AppsController<A : PageArgs, VMA : Any, VM : AppsViewModel<VMA>> 
     }
 
     protected inline fun <T> LiveData<T>.observe(crossinline block: (T) -> Unit) {
-        observe(this@AppsController, Observer { block(it) })
+        observe(this@AppsController, { block(it) })
     }
 }

@@ -48,7 +48,7 @@ class ConductorNavigator @Inject constructor(
             }
         }
         if (nextController is NeedsTarget) {
-            val currentController = targetController ?: router.backstack.lastOrNull()?.controller()
+            val currentController = targetController ?: router.backstack.lastOrNull()?.controller
             nextController.targetController =
                 (currentController as? ProvidesTarget)?.target ?: currentController
         }
