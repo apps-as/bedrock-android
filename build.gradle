@@ -35,7 +35,9 @@ dependencyUpdates.resolutionStrategy {
             switch (selection.candidate.group) {
                 case 'com.android.tools.build' : exclusions = ['alpha']; break
                 case 'com.android.tools.lint' : exclusions = ['alpha']; break
-                case 'org.jetbrains.kotlinx' : exclusions = ['eap']; break
+                case 'org.jetbrains.kotlinx' : exclusions = ['eap', '1.4-M1', '1.4-M2']; break
+                case 'androidx.core' : exclusions = ['alpha']; break
+                case 'androidx.lifecycle' : exclusions = ['alpha']; break
             }
             boolean rejected = exclusions.any { qualifier ->
                 selection.candidate.version ==~ /(?i).*[.-]$qualifier[.\d-+]*/
