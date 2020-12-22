@@ -5,8 +5,10 @@ pipelines:
         script:
           - echo "Thank you for feeding me with more code!"
     - step:
+        caches:
+          - gradle
         name: Publish to Maven
-        image: java:8
+        image: androidsdk/android-30
         trigger: manual
         deployment: production
         script:
