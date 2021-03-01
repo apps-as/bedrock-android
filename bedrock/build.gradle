@@ -1,6 +1,5 @@
 apply plugin: "com.android.library"
 apply plugin: "kotlin-android"
-apply plugin: "kotlin-android-extensions"
 apply plugin: "kotlin-kapt"
 apply plugin: "digital.wup.android-maven-publish"
 
@@ -32,10 +31,10 @@ android {
         jvmTarget = "1.8"
         freeCompilerArgs = ["-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi"]
     }
-}
-
-androidExtensions {
-    experimental true
+    buildFeatures {
+        viewBinding true
+        dataBinding true
+    }
 }
 
 dependencies {
@@ -57,22 +56,23 @@ dependencies {
 }
 
 // Publish
-
-publishing {
-    publications {
-        mavenAar(MavenPublication) {
-            from components.android
-            groupId "no.apps"
-            artifactId "bedrock"
-            version android.defaultConfig.versionName
+afterEvaluate {
+    publishing {
+        publications {
+            mavenAar(MavenPublication) {
+                from components.release
+                groupId "no.apps"
+                artifactId "bedrock"
+                version android.defaultConfig.versionName
+            }
         }
-    }
-    repositories {
-        maven {
-            url "s3://no.apps.maven.s3.amazonaws.com"
-            credentials(AwsCredentials) {
-                accessKey rootProject.properties["maven_access"]
-                secretKey rootProject.properties["maven_secret"]
+        repositories {
+            maven {
+                url "s3://no.apps.maven.s3.amazonaws.com"
+                credentials(AwsCredentials) {
+                    accessKey rootProject.properties["maven_access"]
+                    secretKey rootProject.properties["maven_secret"]
+                }
             }
         }
     }

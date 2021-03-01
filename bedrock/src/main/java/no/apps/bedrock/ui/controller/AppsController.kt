@@ -9,8 +9,7 @@ import androidx.annotation.CallSuper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStore
-import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.*
+import androidx.viewbinding.ViewBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
@@ -30,9 +29,9 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 @Suppress("unused", "MemberVisibilityCanBePrivate")
-abstract class AppsController<A : PageArgs, VMA : Any, VM : AppsViewModel<VMA>> @JvmOverloads constructor(
+abstract class AppsController<B : ViewBinding, A : PageArgs, VMA : Any, VM : AppsViewModel<VMA>> @JvmOverloads constructor(
     bundle: Bundle? = null
-) : LifecycleController(bundle), LayoutContainer, CoroutineScope {
+) : LifecycleController(bundle), CoroutineScope {
     companion object {
         const val MAX_NAVIGATION_BLOCK = 1000L
     }
@@ -41,7 +40,6 @@ abstract class AppsController<A : PageArgs, VMA : Any, VM : AppsViewModel<VMA>> 
     private val job = SupervisorJob()
     private var detachContinuation: Continuation<Unit>? = null
     private var pendingNavigation = false
-    override var containerView: View? = null
 
     override val coroutineContext: CoroutineContext = DispatcherProvider.mainImmediate + job
 
@@ -52,10 +50,14 @@ abstract class AppsController<A : PageArgs, VMA : Any, VM : AppsViewModel<VMA>> 
     lateinit var navigator: Navigator
     protected lateinit var viewModel: VM
         private set
+    protected val binding: B
+        get() = mBinding ?: throw IllegalStateException("Binding has already detached")
+    private var mBinding: B? = null
     abstract val layoutId: Int
+    abstract val viewBinder: (View) -> B
     abstract val viewModelClass: Class<VM>
     protected val pageArgs: A by lazy {
-        args.toArgs<A>()
+        args.toArgs()
     }
 
     override fun onContextAvailable(context: Context) {
@@ -72,7 +74,7 @@ abstract class AppsController<A : PageArgs, VMA : Any, VM : AppsViewModel<VMA>> 
         container: ViewGroup,
         savedViewState: Bundle?
     ): View = inflater.inflate(layoutId, container, false).also {
-        containerView = it
+        mBinding = viewBinder(it)
         initView(it.context)
         viewModel.onCreateView()
     }
@@ -87,8 +89,7 @@ abstract class AppsController<A : PageArgs, VMA : Any, VM : AppsViewModel<VMA>> 
     }
 
     override fun onDestroyView(view: View) {
-        clearFindViewByIdCache()
-        containerView = null
+        mBinding = null
         viewModel.onDestroyView()
     }
 
@@ -97,13 +98,12 @@ abstract class AppsController<A : PageArgs, VMA : Any, VM : AppsViewModel<VMA>> 
         job.cancel()
     }
 
-    protected inline fun <T : Any?> withContext(block: (Context) -> T): T? {
-        val context = activity
-        return if (context != null) {
-            block(context)
-        } else {
-            null
-        }
+    protected inline fun <T : Any?> withContext(block: (Context) -> T): T? = activity?.let {
+        block(it)
+    }
+
+    protected fun <T : Any?> withBinding(block: B.() -> T): T? = mBinding?.let {
+        block(it)
     }
 
     @CallSuper
@@ -130,7 +130,9 @@ abstract class AppsController<A : PageArgs, VMA : Any, VM : AppsViewModel<VMA>> 
         activity?.onBackPressed()
     }
 
-    protected open fun initView(context: Context) {}
+    @CallSuper
+    protected open fun initView(context: Context) {
+    }
 
     private fun buildViewModel(factory: ViewModelProvider.Factory, clazz: Class<VM>): VM {
         return ViewModelProvider(viewModelStore, factory)[clazz]

@@ -3,6 +3,7 @@ package no.apps.bedrock.ui.activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.ViewGroup
+import androidx.viewbinding.ViewBinding
 import com.bluelinelabs.conductor.Conductor
 import com.bluelinelabs.conductor.Router
 import dagger.android.DispatchingAndroidInjector
@@ -12,7 +13,7 @@ import no.apps.bedrock.ui.navigation.PageArgs
 import javax.inject.Inject
 
 @Suppress("MemberVisibilityCanBePrivate")
-abstract class AppsConductorActivity : AppsDaggerActivity(), HasAndroidInjector {
+abstract class AppsConductorActivity<B: ViewBinding> : AppsViewBindingActivity<B>(), HasAndroidInjector {
     @Inject
     lateinit var androidInjector: DispatchingAndroidInjector<Any>
 
