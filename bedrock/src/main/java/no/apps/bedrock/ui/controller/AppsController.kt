@@ -2,6 +2,7 @@ package no.apps.bedrock.ui.controller
 
 import android.content.Context
 import android.os.Bundle
+import android.text.Layout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -53,12 +54,12 @@ abstract class AppsController<B : ViewBinding, A : PageArgs, VMA : Any, VM : App
     protected val binding: B
         get() = mBinding ?: throw IllegalStateException("Binding has already detached")
     private var mBinding: B? = null
-    abstract val layoutId: Int
-    abstract val viewBinder: (View) -> B
     abstract val viewModelClass: Class<VM>
     protected val pageArgs: A by lazy {
         args.toArgs()
     }
+
+    abstract fun inflateBinding(layoutInflater: LayoutInflater): B
 
     override fun onContextAvailable(context: Context) {
         ConductorInjection.inject(this)
@@ -73,10 +74,11 @@ abstract class AppsController<B : ViewBinding, A : PageArgs, VMA : Any, VM : App
         inflater: LayoutInflater,
         container: ViewGroup,
         savedViewState: Bundle?
-    ): View = inflater.inflate(layoutId, container, false).also {
-        mBinding = viewBinder(it)
-        initView(it.context)
+    ): View = inflateBinding(inflater).run {
+        mBinding = this
+        initView(root.context)
         viewModel.onCreateView()
+        root
     }
 
     override fun onAttach(view: View) {
