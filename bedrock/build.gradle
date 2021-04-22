@@ -67,7 +67,7 @@ afterEvaluate {
         }
         repositories {
             maven {
-                url "s3://no.apps.maven.s3.amazonaws.com"
+                url rootProject.properties["maven_repo"]
                 credentials(AwsCredentials) {
                     accessKey rootProject.properties["maven_access"]
                     secretKey rootProject.properties["maven_secret"]
