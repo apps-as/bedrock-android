@@ -22,6 +22,9 @@ class ConductorNavigator @Inject constructor(
         targetController: Controller?
     ) {
         val router = getRouter(currentPage, nextPage)
+        if (router.activity == null) {
+            return
+        }
         val tag = nextPage.tag
         val nextController = getController(nextPage)
         val swapTransaction = RouterTransaction.with(nextController).tag(tag)
