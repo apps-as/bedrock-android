@@ -1,14 +1,3 @@
-# bedrock-android
-
-[![GitHub Release](https://img.shields.io/github/v/release/apps-as/bedrock-android)]()
-![GitHub](https://img.shields.io/github/license/apps-as/bedrock-android)
-
-This project stands as a fundamental building block for a modern Android application. It creates the basics for a single Activity application using `Conductor` as the UI and navigation framework, `Dagger 2` for dependency injection, `LiveData` for data integration and `Coroutines` to drive background processing, fully written in `Kotlin`.
-
-
-## Usage
-This library is not officially available in any public binary repository. You are free to use the code shared here under the provided [license](https://github.com/apps-as/bedrock-android/blob/master/LICENSE).
-
 ## Contribution
 ### Requesting changes
 If you found an issue or have a feature request, feel free to start a conversation in the `Discussion` menu or open an Issue.
@@ -43,11 +32,3 @@ If you decide to publish the ongoing changes, you must follow these rules:
   2. Create a tag with the current version number in the form of `v*.*.*`
   3. Create Github release from the tag (use tag as the name)
   4. Run `Publish to maven repo` action
-
-
-
-
-
----
-**[apps.no](https://apps.no/en/home)** 🗽 _Stay hungry, stay foolish._
-
