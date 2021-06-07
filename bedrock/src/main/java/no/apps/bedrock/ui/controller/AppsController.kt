@@ -22,6 +22,8 @@ import no.apps.bedrock.ui.navigation.PageArgs
 import no.apps.bedrock.ui.navigation.toArgs
 import no.apps.bedrock.utils.DispatcherProvider
 import no.apps.bedrock.utils.Event
+import no.apps.bedrock.utils.extensions.hideKeyboard
+import no.apps.bedrock.utils.extensions.isKeyboardOpen
 import timber.log.Timber
 import javax.inject.Inject
 import kotlin.coroutines.Continuation
@@ -109,28 +111,30 @@ abstract class AppsController<B : ViewBinding, A : PageArgs, VMA : Any, VM : App
     }
 
     @CallSuper
-    protected open fun navigate(args: PageArgs) {
-        if (pendingNavigation || !isAttached) {
-            Timber.w("Skipping navigation: pending: $pendingNavigation, attached: $isAttached")
-            return
-        }
-        pendingNavigation = true
-        launch {
-            withTimeoutOrNull(MAX_NAVIGATION_BLOCK) {
-                suspendCoroutine<Unit> {
-                    detachContinuation = it
-                }
+    protected open fun navigate(args: PageArgs) =
+        closeKeyboardThen {
+            if (pendingNavigation || !isAttached) {
+                Timber.w("Skipping navigation: pending: $pendingNavigation, attached: $isAttached")
+                return@closeKeyboardThen
             }
-            detachContinuation = null
-            pendingNavigation = false
+            pendingNavigation = true
+            launch {
+                withTimeoutOrNull(MAX_NAVIGATION_BLOCK) {
+                    suspendCoroutine<Unit> {
+                        detachContinuation = it
+                    }
+                }
+                detachContinuation = null
+                pendingNavigation = false
+            }
+            navigator.navigate(pageArgs, args, this)
         }
-        navigator.navigate(pageArgs, args, this)
-    }
 
     @CallSuper
-    protected open fun goBack() {
-        activity?.onBackPressed()
-    }
+    protected open fun goBack() =
+        closeKeyboardThen {
+            activity?.onBackPressed()
+        }
 
     @CallSuper
     protected open fun initView(context: Context) {
@@ -146,5 +150,12 @@ abstract class AppsController<B : ViewBinding, A : PageArgs, VMA : Any, VM : App
 
     protected inline fun <T> LiveData<T>.observe(crossinline block: (T) -> Unit) {
         observe(this@AppsController, { block(it) })
+    }
+
+    protected fun closeKeyboardThen(block: () -> Unit) {
+        activity?.currentFocus
+            ?.takeIf { activity?.isKeyboardOpen() == true }
+            ?.hideKeyboard(block)
+            ?: block()
     }
 }
