@@ -131,10 +131,13 @@ abstract class AppsController<B : ViewBinding, A : PageArgs, VMA : Any, VM : App
         }
 
     @CallSuper
-    protected open fun goBack() =
-        closeKeyboardThen {
+    protected open fun goBack(closeKeyboard: Boolean = true) =
+        if (closeKeyboard)
+            closeKeyboardThen {
+                activity?.onBackPressed()
+            }
+        else
             activity?.onBackPressed()
-        }
 
     @CallSuper
     protected open fun initView(context: Context) {
