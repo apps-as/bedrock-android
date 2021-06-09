@@ -16,13 +16,6 @@ allprojects {
     repositories {
         google()
         jcenter()
-        maven {
-            url rootProject.properties["maven_repo"]
-            credentials(AwsCredentials) {
-                accessKey rootProject.properties["maven_access"]
-                secretKey rootProject.properties["maven_secret"]
-            }
-        }
     }
 }
 
