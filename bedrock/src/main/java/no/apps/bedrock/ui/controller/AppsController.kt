@@ -111,24 +111,13 @@ abstract class AppsController<B : ViewBinding, A : PageArgs, VMA : Any, VM : App
     }
 
     @CallSuper
-    protected open fun navigate(args: PageArgs) =
-        closeKeyboardThen {
-            if (pendingNavigation || !isAttached) {
-                Timber.w("Skipping navigation: pending: $pendingNavigation, attached: $isAttached")
-                return@closeKeyboardThen
+    protected open fun navigate(args: PageArgs, closeKeyboard: Boolean = true) =
+        if (closeKeyboard)
+            closeKeyboardThen {
+                doNavigate(args)
             }
-            pendingNavigation = true
-            launch {
-                withTimeoutOrNull(MAX_NAVIGATION_BLOCK) {
-                    suspendCoroutine<Unit> {
-                        detachContinuation = it
-                    }
-                }
-                detachContinuation = null
-                pendingNavigation = false
-            }
-            navigator.navigate(pageArgs, args, this)
-        }
+        else
+            doNavigate(args)
 
     @CallSuper
     protected open fun goBack(closeKeyboard: Boolean = true) =
@@ -141,6 +130,24 @@ abstract class AppsController<B : ViewBinding, A : PageArgs, VMA : Any, VM : App
 
     @CallSuper
     protected open fun initView(context: Context) {
+    }
+
+    private fun doNavigate(args: PageArgs) {
+        if (pendingNavigation || !isAttached) {
+            Timber.w("Skipping navigation: pending: $pendingNavigation, attached: $isAttached")
+            return
+        }
+        pendingNavigation = true
+        launch {
+            withTimeoutOrNull(MAX_NAVIGATION_BLOCK) {
+                suspendCoroutine<Unit> {
+                    detachContinuation = it
+                }
+            }
+            detachContinuation = null
+            pendingNavigation = false
+        }
+        navigator.navigate(pageArgs, args, this)
     }
 
     private fun buildViewModel(factory: ViewModelProvider.Factory, clazz: Class<VM>): VM {
