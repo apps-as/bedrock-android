@@ -10,7 +10,7 @@ val Context.connectivityManager: ConnectivityManager
 
 val Context.isOnline: Boolean
     @SuppressLint("MissingPermission")
-    get() = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)?.run {
-        return@run hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+    get() = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)?.let {
+        it.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
     } ?: false
 
