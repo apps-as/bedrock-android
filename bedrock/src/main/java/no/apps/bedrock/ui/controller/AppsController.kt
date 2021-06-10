@@ -22,6 +22,8 @@ import no.apps.bedrock.ui.navigation.PageArgs
 import no.apps.bedrock.ui.navigation.toArgs
 import no.apps.bedrock.utils.DispatcherProvider
 import no.apps.bedrock.utils.Event
+import no.apps.bedrock.utils.extensions.hideKeyboard
+import no.apps.bedrock.utils.extensions.isKeyboardOpen
 import timber.log.Timber
 import javax.inject.Inject
 import kotlin.coroutines.Continuation
@@ -109,7 +111,28 @@ abstract class AppsController<B : ViewBinding, A : PageArgs, VMA : Any, VM : App
     }
 
     @CallSuper
-    protected open fun navigate(args: PageArgs) {
+    protected open fun navigate(args: PageArgs, closeKeyboard: Boolean = true) =
+        if (closeKeyboard)
+            closeKeyboardThen {
+                doNavigate(args)
+            }
+        else
+            doNavigate(args)
+
+    @CallSuper
+    protected open fun goBack(closeKeyboard: Boolean = true) =
+        if (closeKeyboard)
+            closeKeyboardThen {
+                activity?.onBackPressed()
+            }
+        else
+            activity?.onBackPressed()
+
+    @CallSuper
+    protected open fun initView(context: Context) {
+    }
+
+    private fun doNavigate(args: PageArgs) {
         if (pendingNavigation || !isAttached) {
             Timber.w("Skipping navigation: pending: $pendingNavigation, attached: $isAttached")
             return
@@ -127,15 +150,6 @@ abstract class AppsController<B : ViewBinding, A : PageArgs, VMA : Any, VM : App
         navigator.navigate(pageArgs, args, this)
     }
 
-    @CallSuper
-    protected open fun goBack() {
-        activity?.onBackPressed()
-    }
-
-    @CallSuper
-    protected open fun initView(context: Context) {
-    }
-
     private fun buildViewModel(factory: ViewModelProvider.Factory, clazz: Class<VM>): VM {
         return ViewModelProvider(viewModelStore, factory)[clazz]
     }
@@ -146,5 +160,12 @@ abstract class AppsController<B : ViewBinding, A : PageArgs, VMA : Any, VM : App
 
     protected inline fun <T> LiveData<T>.observe(crossinline block: (T) -> Unit) {
         observe(this@AppsController, { block(it) })
+    }
+
+    protected fun closeKeyboardThen(block: () -> Unit) {
+        activity?.currentFocus
+            ?.takeIf { activity?.isKeyboardOpen() == true }
+            ?.hideKeyboard(block)
+            ?: block()
     }
 }
